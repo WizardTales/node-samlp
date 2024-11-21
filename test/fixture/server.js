@@ -51,15 +51,15 @@ module.exports.start = function(options, callback){
   }
 
   //configure samlp middleware
-  app.get('/samlp', function(req, res, next) {
+  app.get('/samlp', function(req, h, next) {
     samlp.auth(xtend({}, {
       issuer:             'urn:fixture-test',
       getPostURL:         getPostURL,
       cert:               credentials.cert,
       key:                credentials.key
-    }, module.exports.options))(req, res, function(err){
+    }, module.exports.options))(req, h, function(err){
       if (err) {
-        return res.send(400, err.message);
+        return h.response(err.message).code(400);
       } 
       next();
     });
@@ -72,30 +72,30 @@ module.exports.start = function(options, callback){
     postEndpointPath:     '/login/callback'
   }));
 
-  app.get('/logout', function(req, res, next) {
+  app.get('/logout', function(req, h, next) {
     samlp.logout(xtend({}, {
       deflate:            true,
       issuer:             'urn:fixture-test',
       protocolBinding:    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
       cert:               credentials.cert,
       key:                credentials.key
-    }, module.exports.options))(req, res, function (err) {
+    }, module.exports.options))(req, h, function (err) {
       if (err) {
-        return res.send(400, err.message);
+        return h.response(err.message).code(400);
       } 
       next();
     });
   });
 
-  app.post('/logout', function(req, res, next) {
+  app.post('/logout', function(req, h, next) {
     samlp.logout(xtend({}, {
       issuer:             'urn:fixture-test',
       protocolBinding:    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
       cert:               credentials.cert,
       key:                credentials.key
-    }, module.exports.options))(req, res, function (err) {
+    }, module.exports.options))(req, h, function (err) {
       if (err) {
-        return res.send(400, err.message);
+        return h.response(err.message).code(400);
       } 
       next();
     });
