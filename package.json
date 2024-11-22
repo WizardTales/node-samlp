@@ -26,6 +26,7 @@
     "@auth0/thumbprint": "0.0.6",
     "@auth0/xmldom": "0.1.21",
     "auth0-id-generator": "^0.2.0",
+    "bluebird": "^3.7.2",
     "ejs": "^3.1.10",
     "flowstate": "^0.4.1",
     "querystring": "^0.2.1",
